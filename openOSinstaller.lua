@@ -13,7 +13,33 @@ local function selectfs(label)
     return address
 end
 
+local function segments(path)
+    local parts = {}
+    for part in path:gmatch("[^\\/]+") do
+        local current, up = part:find("^%.?%.$")
+        if current then
+            if up == 2 then
+                table.remove(parts)
+            end
+        else
+            table.insert(parts, part)
+        end
+    end
+    return parts
+end
+
+local function fs_path(path)
+    local parts = segments(path)
+    local result = table.concat(parts, "/", 1, #parts - 1) .. "/"
+    if unicode.sub(path, 1, 1) == "/" and unicode.sub(result, 1, 1) ~= "/" then
+        return "/" .. result
+    else
+        return result
+    end
+end
+
 local function saveFile(fs, path, data)
+    fs.makeDirectory(fs_path(path))
     local file, err = fs.open(path, "wb")
     if not file then return nil, err end
     fs.write(file, data)
