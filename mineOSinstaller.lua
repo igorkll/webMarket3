@@ -7,9 +7,9 @@ component.invoke = function(address, name, ...)
         if name == "set" then
             return nil, "storage is readonly"
         end
-        return originalInvoke(address, name, ...)
+        return component_invoke(address, name, ...)
     else
-        return originalInvoke(address, name, ...)
+        return component_invoke(address, name, ...)
     end
 end
 internetBoot("https://raw.githubusercontent.com/IgorTimofeev/MineOS/master/Installer/Main.lua")
