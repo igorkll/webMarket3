@@ -100,6 +100,7 @@ while true do
                 if not branch then return end
                 install(selected, "https://raw.githubusercontent.com/igorkll/openOSpath/" .. branch)
             end
+            return
         end
     end
 end
